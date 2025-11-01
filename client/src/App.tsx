@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import EstimateEditor from "./pages/EstimateEditor";
 import Settings from "./pages/Settings";
+import Layout from "./components/Layout";
 
 function Router() {
   return (
@@ -35,7 +36,9 @@ function App() {
       >
         <TooltipProvider>
           <Toaster />
-          <Router />
+          <Layout>
+            <Router />
+          </Layout>
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
