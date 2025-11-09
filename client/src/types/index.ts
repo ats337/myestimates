@@ -2,7 +2,7 @@
 export interface JobType {
   id: string;
   name: string;
-  monthlyRate: number; // 人月単価
+  hourlyRate: number; // 時間単価
 }
 
 // 作業項目の型定義
@@ -10,7 +10,7 @@ export interface WorkItem {
   id: string;
   name: string;
   jobTypeId: string;
-  manMonths: number; // 人月
+  hours: number; // 時間
 }
 
 // 見積もりプロジェクトの型定義

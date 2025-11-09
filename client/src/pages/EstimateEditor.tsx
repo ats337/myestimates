@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/table";
 import {
   calculateTotalCost,
-  calculateTotalManMonths,
+  calculateTotalHours,
   calculateWorkItemCost,
   formatCurrency,
-  formatManMonths,
+  formatHours,
 } from "@/lib/calculator";
 import { getProjects, getSettings, saveProject } from "@/lib/storage";
 import type { EstimateProject, WorkItem } from "@/types";
@@ -45,6 +45,7 @@ export default function EstimateEditor() {
   const projectId = params.id;
 
   const [projectName, setProjectName] = useState("");
+  const [customerName, setCustomerName] = useState("");
   const [workItems, setWorkItems] = useState<WorkItem[]>([]);
   const settings = getSettings();
 
@@ -85,7 +86,7 @@ export default function EstimateEditor() {
       id: crypto.randomUUID(),
       name: "",
       jobTypeId: settings.jobTypes[0]?.id || "",
-      manMonths: 0,
+      hours: 0,
     };
     setWorkItems([...workItems, newItem]);
   };
@@ -113,7 +114,7 @@ export default function EstimateEditor() {
   };
 
   const totalCost = calculateTotalCost(workItems, settings.jobTypes);
-  const totalManMonths = calculateTotalManMonths(workItems);
+  const totalHours = calculateTotalHours(workItems);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -148,14 +149,25 @@ export default function EstimateEditor() {
                 <CardTitle>プロジェクト情報</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div>
-                  <Label htmlFor="projectName">プロジェクト名</Label>
-                  <Input
-                    id="projectName"
-                    value={projectName}
-                    onChange={(e) => setProjectName(e.target.value)}
-                    placeholder="例: 顧客管理システム開発"
-                  />
+                <div className="space-y-4">
+                  <div>
+                    <Label htmlFor="customerName">顧客名</Label>
+                    <Input
+                      id="customerName"
+                      value={customerName}
+                      onChange={(e) => setCustomerName(e.target.value)}
+                      placeholder="例: 株式会社〇〇"
+                    />
+                  </div>
+                  <div>
+                    <Label htmlFor="projectName">プロジェクト名</Label>
+                    <Input
+                      id="projectName"
+                      value={projectName}
+                      onChange={(e) => setProjectName(e.target.value)}
+                      placeholder="例: 顧客管理システム開発"
+                    />
+                  </div>
                 </div>
 
                 <div>
@@ -205,7 +217,7 @@ export default function EstimateEditor() {
                         <TableRow>
                           <TableHead>作業項目名</TableHead>
                           <TableHead>職種</TableHead>
-                          <TableHead className="w-32">人月</TableHead>
+                          <TableHead className="w-32">時間</TableHead>
                           <TableHead className="text-right">金額</TableHead>
                           <TableHead className="w-16"></TableHead>
                         </TableRow>
@@ -253,10 +265,10 @@ export default function EstimateEditor() {
                                   type="number"
                                   step="0.1"
                                   min="0"
-                                  value={item.manMonths}
+                                  value={item.hours}
                                   onChange={(e) =>
                                     handleUpdateWorkItem(item.id, {
-                                      manMonths: parseFloat(e.target.value) || 0,
+                                      hours: parseFloat(e.target.value) || 0,
                                     })
                                   }
                                 />
@@ -294,8 +306,8 @@ export default function EstimateEditor() {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="flex justify-between border-b pb-2">
-                  <span className="text-slate-600">合計人月</span>
-                  <span className="font-semibold">{formatManMonths(totalManMonths)}</span>
+                  <span className="text-slate-600">合計時間</span>
+                  <span className="font-semibold">{formatHours(totalHours)}</span>
                 </div>
                 <div className="flex justify-between border-b pb-2">
                   <span className="text-slate-600">作業項目数</span>

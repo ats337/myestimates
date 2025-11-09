@@ -5,12 +5,12 @@ const STORAGE_KEYS = {
   SETTINGS: 'estimate_settings',
 } as const;
 
-// デフォルトの職種設定
+// デフォルトの職種設定 (1人月=160時間として計算)
 const DEFAULT_JOB_TYPES: JobType[] = [
-  { id: '1', name: 'プロジェクトマネージャー', monthlyRate: 1200000 },
-  { id: '2', name: 'システムエンジニア', monthlyRate: 900000 },
-  { id: '3', name: 'プログラマー', monthlyRate: 700000 },
-  { id: '4', name: 'テスター', monthlyRate: 600000 },
+  { id: '1', name: 'プロジェクトマネージャー', hourlyRate: 7500 }, // 1200000 / 160
+  { id: '2', name: 'システムエンジニア', hourlyRate: 5625 }, // 900000 / 160
+  { id: '3', name: 'プログラマー', hourlyRate: 4375 }, // 700000 / 160
+  { id: '4', name: 'テスター', hourlyRate: 3750 }, // 600000 / 160
 ];
 
 // デフォルト設定
@@ -21,13 +21,13 @@ const DEFAULT_SETTINGS: Settings = {
       id: '1',
       name: '標準Webアプリケーション開発',
       workItems: [
-        { name: '要件定義', jobTypeId: '1', manMonths: 0.5 },
-        { name: '基本設計', jobTypeId: '2', manMonths: 1.0 },
-        { name: '詳細設計', jobTypeId: '2', manMonths: 1.5 },
-        { name: '開発', jobTypeId: '3', manMonths: 3.0 },
-        { name: '単体テスト', jobTypeId: '3', manMonths: 1.0 },
-        { name: '結合テスト', jobTypeId: '4', manMonths: 1.0 },
-        { name: 'システムテスト', jobTypeId: '4', manMonths: 0.5 },
+        { name: '要件定義', jobTypeId: '1', hours: 80 }, // 0.5人月 = 80時間
+        { name: '基本設計', jobTypeId: '2', hours: 160 }, // 1.0人月 = 160時間
+        { name: '詳細設計', jobTypeId: '2', hours: 240 }, // 1.5人月 = 240時間
+        { name: '開発', jobTypeId: '3', hours: 480 }, // 3.0人月 = 480時間
+        { name: '単体テスト', jobTypeId: '3', hours: 160 }, // 1.0人月 = 160時間
+        { name: '結合テスト', jobTypeId: '4', hours: 160 }, // 1.0人月 = 160時間
+        { name: 'システムテスト', jobTypeId: '4', hours: 80 }, // 0.5人月 = 80時間
       ],
     },
   ],

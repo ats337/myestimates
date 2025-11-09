@@ -55,7 +55,7 @@ export default function Settings() {
     const newJobType: JobType = {
       id: crypto.randomUUID(),
       name: "",
-      monthlyRate: 0,
+      hourlyRate: 0,
     };
     setJobTypes([...jobTypes, newJobType]);
   };
@@ -115,7 +115,7 @@ export default function Settings() {
     const newItem: Omit<WorkItem, "id"> = {
       name: "",
       jobTypeId: jobTypes[0]?.id || "",
-      manMonths: 0,
+      hours: 0,
     };
 
     setEditingTemplate({
@@ -182,7 +182,7 @@ export default function Settings() {
               <CardHeader>
                 <CardTitle>職種別単価設定</CardTitle>
                 <CardDescription>
-                  見積もり計算に使用する職種と人月単価を設定します
+                  見積もり計算に使用する職種と時間単価を設定します
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -197,7 +197,7 @@ export default function Settings() {
                   <TableHeader>
                     <TableRow>
                       <TableHead>職種名</TableHead>
-                      <TableHead>人月単価(円)</TableHead>
+                      <TableHead>時間単価(円)</TableHead>
                       <TableHead className="w-16"></TableHead>
                     </TableRow>
                   </TableHeader>
@@ -223,15 +223,15 @@ export default function Settings() {
                           <TableCell>
                             <Input
                               type="number"
-                              step="10000"
+                              step="100"
                               min="0"
-                              value={jobType.monthlyRate}
+                              value={jobType.hourlyRate}
                               onChange={(e) =>
                                 handleUpdateJobType(jobType.id, {
-                                  monthlyRate: parseInt(e.target.value) || 0,
+                                  hourlyRate: parseInt(e.target.value) || 0,
                                 })
                               }
-                              placeholder="例: 1000000"
+                              placeholder="例: 7500"
                             />
                           </TableCell>
                           <TableCell>
@@ -350,7 +350,7 @@ export default function Settings() {
                       <TableRow>
                         <TableHead>作業項目名</TableHead>
                         <TableHead>職種</TableHead>
-                        <TableHead className="w-32">人月</TableHead>
+                        <TableHead className="w-32">時間</TableHead>
                         <TableHead className="w-16"></TableHead>
                       </TableRow>
                     </TableHeader>
@@ -397,10 +397,10 @@ export default function Settings() {
                                 type="number"
                                 step="0.1"
                                 min="0"
-                                value={item.manMonths}
+                                value={item.hours}
                                 onChange={(e) =>
                                   handleUpdateTemplateWorkItem(index, {
-                                    manMonths: parseFloat(e.target.value) || 0,
+                                    hours: parseFloat(e.target.value) || 0,
                                   })
                                 }
                               />
